@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'admin/templates/header.html' %}
+  <body>
+    {% include 'admin/templates/navbar_and_sidebar.html' %}
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1>Dashboard</h1>
+      </div>
+      <!-- End Page Title -->
+
+      <section class="section dashboard">
+        <div class="row mt-3">
+          {% if user_info %} {% if user_info.role in ['Admin', 'Member', 'User']
+          %}
+          <!-- Guests Present Card -->
+          <div class="col-4">
+            <div class="card info-card revenue-card position-relative">
+              <a href="../guests" class="stretched-link"></a>
+              <div class="card-body">
+                <h5 class="card-title">Tamu Hadir <span>| Hari ini</span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div
+                    class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                  >
+                    <i class="bi bi-person-check"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{ present_status }}</h6>
+                    <span class="text-muted small pt-2 ps-1">orang</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Guests Present Card -->
+
+          <!-- Invitation Card -->
+          <div class="col-4">
+            <div class="card info-card sales-card position-relative">
+              <a href="../guests" class="stretched-link"></a>
+              <div class="card-body">
+                <h5 class="card-title">Undangan <span>| Hari ini</span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div
+                    class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                  >
+                    <i class="bi bi-person-add"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{ guests_count }}</h6>
+                    <span class="text-muted small pt-2 ps-1">orang</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Invitation Card -->
+          {% endif %} {% if user_info.role == 'Admin' %}
+
+          <!-- Users Card -->
+          <div class="col-4">
+            <div class="card info-card customers-card position-relative">
+              <a href="../users" class="stretched-link"></a>
+              <div class="card-body">
+                <h5 class="card-title">Pengguna <span>| Hari ini</span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div
+                    class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                  >
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{ users_count }}</h6>
+                    <span class="text-muted small pt-2 ps-1">orang</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Users Card -->
+          {% endif %} {% endif %}
+        </div>
+      </section>
+    </main>
+    <!-- End #main -->
+    {% include 'admin/templates/footer.html' %}
+  </body>
+</html>

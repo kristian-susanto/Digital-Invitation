@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'admin/templates/header.html' %}
+  <body>
+    {% include 'admin/templates/navbar_and_sidebar.html' %}
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1>{{ title }}</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../">Dashboard</a></li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+
+      {% if user_info %} {% if user_info.role == 'Admin' %}
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ title }}</h5>
+                <div class="d-flex justify-content-end flex-wrap gap-2 mb-3">
+                  <!-- Add User Button -->
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addUser"
+                  >
+                    <i class="bi bi-clipboard-plus"></i> Tambah {{ title }}
+                  </button>
+
+                  <!-- Excel Button -->
+                  <button
+                    type="button"
+                    class="btn btn-success btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#confirmExcelDownload"
+                  >
+                    <i class="bi bi-file-earmark-excel"></i> Laporan Excel
+                  </button>
+
+                  <!-- PDF Button -->
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#confirmPDFDownload"
+                  >
+                    <i class="bi bi-file-earmark-pdf"></i> Laporan PDF
+                  </button>
+
+                  <!-- Refresh Button -->
+                  <button
+                    type="button"
+                    class="btn btn-dark btn-sm"
+                    onclick="window.location.reload();"
+                  >
+                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                  </button>
+                </div>
+
+                <!-- Add User Modal -->
+                <div class="modal fade" id="addUser" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Tambah {{ title }}</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row g-3">
+                          <div class="col-6">
+                            <label>Password</label>
+                            <input
+                              type="password"
+                              class="form-control mt-2"
+                              id="addPassword"
+                              name="password_give"
+                              placeholder="Masukkan password"
+                              autofocus
+                              required
+                            />
+                            <div
+                              id="addPasswordFeedback"
+                              class="text-warning"
+                            ></div>
+                          </div>
+                          <div class="col-6">
+                            <label>Role</label>
+                            <select
+                              class="form-control mt-2"
+                              id="addRole"
+                              name="role_give"
+                              required
+                            >
+                              <option value="" hidden>Pilih Role</option>
+                              <option value="Admin">Admin</option>
+                              <option value="Member">Member</option>
+                              <option value="User">User</option>
+                            </select>
+                            <div id="addRoleFeedback" class=""></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm"
+                          onclick="addUser()"
+                        >
+                          <i class="bi bi-save2"></i>
+                          Simpan
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary btn-sm"
+                          data-bs-dismiss="modal"
+                        >
+                          <i class="bi bi-arrow-counterclockwise"></i>
+                          Batal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Add User Modal-->
+
+                <!-- Download Excel Modal -->
+                <div class="modal fade" id="confirmExcelDownload" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Konfirmasi Unduh</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Batal"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        Yakin ingin mengunduh file <strong>Excel</strong> ini?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-success btn-sm"
+                          onclick="downloadExcel()"
+                        >
+                          <i class="bi bi-filetype-xlsx"></i> Unduh Excel
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary btn-sm"
+                          data-bs-dismiss="modal"
+                        >
+                          <i class="bi bi-arrow-counterclockwise"></i> Batal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Download Excel Modal-->
+
+                <!-- Download PDF Modal -->
+                <div class="modal fade" id="confirmPDFDownload" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Konfirmasi Unduh</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Batal"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        Yakin ingin mengunduh file <strong>PDF</strong> ini?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                          onclick="downloadPDF()"
+                        >
+                          <i class="bi bi-filetype-pdf"></i> Unduh PDF
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary btn-sm"
+                          data-bs-dismiss="modal"
+                        >
+                          <i class="bi bi-arrow-counterclockwise"></i> Batal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Download PDF Modal-->
+
+                <!-- Table -->
+                <table class="table table-hover datatable">
+                  <thead>
+                    <tr>
+                      <th class="text-center">No</th>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Role</th>
+                      <th class="text-center">Tanggal dan Waktu Pembuatan</th>
+                      <th class="text-center">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for user in users %}
+                    <tr>
+                      <td class="text-center">{{ loop.index }}</td>
+                      <td class="text-center">{{ user._id }}</td>
+                      <td>{{ user.role }}</td>
+                      <td>{{ user.created_date }} - {{ user.created_time }}</td>
+                      <td class="text-center">
+                        <button
+                          type="button"
+                          class="btn btn-dark btn-sm mb-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#detailUser_{{ user['_id'] }}"
+                        >
+                          <i class="bi bi-eye me-1"></i> Detail
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm mb-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#editUser_{{ user['_id'] }}"
+                        >
+                          <i class="bi bi-pencil-square me-1"></i> Edit
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-success btn-sm mb-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#resetUser_{{ user['_id'] }}"
+                        >
+                          <i class="bi bi-lightning-charge"></i> Reset
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm mb-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteUser_{{ user['_id'] }}"
+                        >
+                          <i class="bi bi-trash me-1"></i> Hapus
+                          <span class="badge bg-white text-danger"></span>
+                        </button>
+                      </td>
+                    </tr>
+
+                    <!-- Detail User Modal -->
+                    <div
+                      class="modal fade"
+                      id="detailUser_{{ user['_id'] }}"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Detail {{ title }}</h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row g-3">
+                              <div class="col-12">
+                                <label>ID {{ title }}</label>
+                                <p class="form-control mt-2">{{ user._id }}</p>
+                              </div>
+                              <div class="col-12">
+                                <label>Role</label>
+                                <p class="form-control mt-2">{{ user.role }}</p>
+                              </div>
+                              <div class="col-12">
+                                <label>Tanggal dan Waktu Pembuatan</label>
+                                <p class="form-control mt-2">
+                                  {{ user.created_date }} - {{ user.created_time
+                                  }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary btn-sm"
+                              data-bs-dismiss="modal"
+                            >
+                              <i class="bi bi-arrow-counterclockwise"></i>
+                              Tutup
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Detail User Modal -->
+
+                    <!-- Edit User Modal -->
+                    <div
+                      class="modal fade"
+                      id="editUser_{{ user['_id'] }}"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Ubah {{ title }}</h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row g-3">
+                              <div class="col-12">
+                                <label>Role</label>
+                                <select
+                                  class="form-control mt-2"
+                                  id="editRole_{{ user._id }}"
+                                  name="role_give"
+                                  required
+                                >
+                                  {% if user.role == 'Admin' %}
+                                  <option value="Admin" selected>Admin</option>
+                                  <option value="Member">Member</option>
+                                  <option value="User">User</option>
+                                  {% elif user.role == 'Member' %}
+                                  <option value="Admin">Admin</option>
+                                  <option value="Member" selected>
+                                    Member
+                                  </option>
+                                  <option value="User">User</option>
+                                  {% elif user.role == 'User' %}
+                                  <option value="Admin">Admin</option>
+                                  <option value="Member">Member</option>
+                                  <option value="User" selected>User</option>
+                                  {% endif %}
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <input type="hidden" value="{{ user['_id'] }}" />
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-sm"
+                              onclick="editUser('{{ user['_id'] }}')"
+                            >
+                              <i class="bi bi-save2"></i> Simpan
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-secondary btn-sm"
+                              data-bs-dismiss="modal"
+                            >
+                              <i class="bi bi-arrow-counterclockwise"></i>
+                              Batal
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Edit User Modal -->
+
+                    <!-- Reset User Modal -->
+                    <div
+                      class="modal fade"
+                      id="resetUser_{{ user['_id'] }}"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Reset {{ title }}</h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            Apakah Anda yakin ingin mereset tamu ini?
+                          </div>
+                          <div class="modal-footer">
+                            <input type="hidden" value="{{ user['_id'] }}" />
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-sm"
+                              onclick="resetUser('{{ user['_id'] }}')"
+                            >
+                              <i class="bi bi-arrow-left-right"></i> Reset
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-secondary btn-sm"
+                              data-bs-dismiss="modal"
+                            >
+                              <i class="bi bi-arrow-counterclockwise"></i>
+                              Batal
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Reset User Modal -->
+
+                    <!-- Delete User Modal -->
+                    <div
+                      class="modal fade"
+                      id="deleteUser_{{ user['_id'] }}"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Hapus {{ title }}</h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            Apakah Anda yakin ingin menghapus pengguna ini?
+                          </div>
+                          <div class="modal-footer">
+                            <input type="hidden" value="{{ user['_id'] }}" />
+                            <button
+                              type="button"
+                              class="btn btn-danger btn-sm"
+                              onclick="deleteUser('{{ user['_id'] }}')"
+                            >
+                              <i class="bi bi-trash3"></i> Hapus
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-secondary btn-sm"
+                              data-bs-dismiss="modal"
+                            >
+                              <i class="bi bi-arrow-counterclockwise"></i>
+                              Batal
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Delete User Modal -->
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <!-- End Table -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {% endif %} {% endif %}
+    </main>
+    <!-- End #main -->
+
+    <script>
+      const currentCollection = "{{ collection_name }}";
+    </script>
+    {% include 'admin/templates/footer.html' %}
+  </body>
+</html>

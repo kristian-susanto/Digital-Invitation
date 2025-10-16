@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'admin/templates/header.html' %}
+  <body>
+    {% include 'admin/templates/navbar_and_sidebar.html' %}
+
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1>{{ title }}</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../">Dashboard</a></li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Catat Hadir</h5>
+
+                <div class="row">
+                  {% if user_info and user_info.role == 'User' %}
+                  <div class="col-md-12 form-group mb-3">
+                    <label for="guestNameInput">Pilih Nama Tamu</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="guestNameInput"
+                      placeholder="Ketik nama tamu"
+                      autocomplete="off"
+                    />
+                    <input type="hidden" id="guestIdHidden" />
+                  </div>
+
+                  <div class="col-md-12 form-group mb-3">
+                    <label>Domisili</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="guestDomicile"
+                      readonly
+                    />
+                  </div>
+
+                  <div class="text-center mt-4">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="noteGuestFromGuestbook()"
+                    >
+                      Catat Kehadiran
+                    </button>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Catat Tamu Baru</h5>
+                <div class="row">
+                  {% if user_info %} {% if user_info.role == 'User' %}
+                  <div class="col-md-12 form-group">
+                    <label>Nama</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="addName"
+                      name="name_give"
+                      placeholder="Masukkan nama tamu"
+                      required
+                    />
+                    <div id="addNameFeedback" class="text-warning"></div>
+                  </div>
+                  <div class="text-center mt-4">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="addGuest()"
+                    >
+                      Simpan
+                    </button>
+                  </div>
+                  {% endif %} {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- End #main -->
+
+    {% include 'admin/templates/footer.html' %}
+  </body>
+</html>

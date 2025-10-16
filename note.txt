@@ -1,0 +1,66 @@
+Vivaldy & Angelita
+
+Dear, Vania
+
+We cordially request the honor of your apresence as we exchange our vows.
+
+Your presence, blessings, and prayermean a lot to us. We are looking a forward to share our special day with you.
+
+Kindly help us to confirm your attendance by sending rsvp through e-invitation as follow
+
+Warm Regards, Vivaldy (Didi) & Angelita (Angel)
+
+
+Vivaldy & Angelita
+
+Yang terhormat, Vania
+
+Kami dengan hormat memohon kehadiran Anda saat kami mengucapkan janji pernikahan.
+
+Kehadiran, berkat, dan doa Anda sangat berarti bagi kami. Kami menantikan hari istimewa kami bersama Anda.
+
+Mohon bantuannya untuk mengonfirmasi kehadiran Anda dengan mengirimkan RSVP melalui e-undangan sebagai berikut.
+
+Salam hangat, Vivaldy (Didi) & Angelita (Angel)
+
+
+Untuk mengirim pesan WhatsApp dengan format yang rapi (termasuk **spasi dan baris baru**), kamu perlu menggunakan **URL encoding**. Dalam URL encoding:
+
+* Spasi = `%20`
+* Baris baru (Enter) = `%0A`
+
+Berikut adalah versi perbaikan dari kode tombol kamu, dengan pesan WhatsApp baru yang sudah diformat:
+
+```html
+<button
+  type="button"
+  class="btn btn-success btn-sm mb-2"
+  onclick="window.open(
+    'https://api.whatsapp.com/send?phone={{ guest.phone }}&text=' +
+    encodeURIComponent(
+      'Vivaldy & Angelita\n\n' +
+      'Yang terhormat, {{ guest.name }}\n\n' +
+      'Kami dengan hormat memohon kehadiran Anda saat kami mengucapkan janji pernikahan.\n\n' +
+      'Kehadiran, berkat, dan doa Anda sangat berarti bagi kami. Kami menantikan hari istimewa kami bersama Anda.\n\n' +
+      'Mohon bantuannya untuk mengonfirmasi kehadiran Anda dengan mengirimkan RSVP melalui e-undangan sebagai berikut:\n' +
+      'http://127.0.0.1:5000/{{ guest.guest_id }}\n\n' +
+      'Salam hangat,\nVivaldy (Didi) & Angelita (Angel)'
+    ),
+    '_blank')"
+>
+  <i class="bi bi-share"></i> Sebar ke WA
+</button>
+```
+
+### Penjelasan:
+
+* `encodeURIComponent(...)` secara otomatis akan mengubah teks menjadi format URL encoded (termasuk mengganti `\n` dengan `%0A`, spasi dengan `%20`, dll).
+* Ini jauh lebih bersih dan aman dibandingkan mengetik `%0A` secara manual.
+* Teks dibuat dalam JavaScript agar lebih mudah mengatur enter dan interpolasi.
+
+### Catatan:
+
+* Pastikan bahwa `{{ guest.name }}` dan `{{ guest.guest_id }}` di-render dengan benar oleh template engine (misalnya Jinja2 jika kamu pakai Flask).
+* Jika ingin mengarah ke domain sebenarnya nanti (bukan `127.0.0.1`), cukup ubah URL-nya saja.
+
+Kalau kamu ingin versi dengan isi pesan yang bisa diedit lewat form atau setting admin, itu juga bisa diatur. Mau dibantu juga?

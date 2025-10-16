@@ -1,0 +1,9 @@
+{% for wish in wishes %}
+<div class="mb-3">
+  <strong>{{ wish.name }}</strong>
+  <p>{{ wish.comment }}</p>
+  <hr />
+</div>
+{% else %}
+<p class="text-muted">Belum ada komentar yang ditampilkan.</p>
+{% endfor %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'admin/templates/header.html' %}
+
+  <body>
+    <main>
+      <div class="container">
+        <section
+          class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center"
+        >
+          <h1>404</h1>
+          <h2>Halaman yang Anda cari tidak ada.</h2>
+          <img
+            src="{{ url_for('static', filename='admin/img/not-found.svg') }}"
+            class="img-fluid py-5"
+            alt="Page Not Found"
+          />
+          <div class="credits">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            Design by
+            <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </section>
+      </div>
+    </main>
+    <!-- End #main -->
+
+    {% include 'admin/templates/footer.html' %}
+  </body>
+</html>

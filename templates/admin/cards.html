@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'admin/templates/header.html' %}
+  <body>
+    {% include 'admin/templates/navbar_and_sidebar.html' %}
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1>{{ title }}</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../">Dashboard</a></li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+
+      {% if user_info %} {% if user_info.role == 'Admin' %}
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ title }}</h5>
+
+                <!-- Cards Form -->
+                <div class="row g-3">
+                  {% if cards|length > 0 %} {% for card in cards %}
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="groomNicknames"
+                        placeholder="Masukkan nama panggilan pria"
+                        value="{{ card.groom_nicknames or '' }}"
+                      />
+                      <label for="groomNicknames">Nama Panggilan Pria</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="brideNicknames"
+                        placeholder="Masukkan nama panggilan wanita"
+                        value="{{ card.bride_nicknames or '' }}"
+                      />
+                      <label for="brideNicknames">Nama Panggilan Wanita</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameGroom"
+                        placeholder="Masukkan nama lengkap pria"
+                        value="{{ card.full_name_groom or '' }}"
+                      />
+                      <label for="fullNameGroom">Nama Lengkap Pria</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameBride"
+                        placeholder="Masukkan nama lengkap wanita"
+                        value="{{ card.full_name_bride or '' }}"
+                      />
+                      <label for="fullNameBride">Nama Lengkap Wanita</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameMotherGroom"
+                        placeholder="Masukkan nama lengkap ibu mempelai pria"
+                        value="{{ card.full_name_mother_groom or '' }}"
+                      />
+                      <label for="fullNameMotherGroom"
+                        >Nama Lengkap Ibu Mempelai Pria</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameMotherBride"
+                        placeholder="Masukkan nama lengkap ibu mempelai wanita"
+                        value="{{ card.full_name_mother_bride or '' }}"
+                      />
+                      <label for="fullNameMotherBride"
+                        >Nama Lengkap Ibu Mempelai Wanita</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameFatherGroom"
+                        placeholder="Masukkan nama lengkap bapak mempelai pria"
+                        value="{{ card.full_name_father_groom or '' }}"
+                      />
+                      <label for="fullNameFatherGroom"
+                        >Nama Lengkap Bapak Mempelai Pria</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameFatherBride"
+                        placeholder="Masukkan nama lengkap bapak mempelai wanita"
+                        value="{{ card.full_name_father_bride or '' }}"
+                      />
+                      <label for="fullNameFatherBride"
+                        >Nama Lengkap Bapak Mempelai Wanita</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan kalimat pembuka"
+                        id="openingSentence"
+                        style="height: 200px"
+                      >
+{{ card.opening_sentence or '' }}</textarea
+                      >
+                      <label for="openingSentence">Kalimat Pembuka</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="countdownDate"
+                        placeholder="Masukkan hitung mundur tanggal"
+                        value="{{ card.countdown_date or '' }}"
+                      />
+                      <label for="countdownDate">Hitung Mundur tanggal</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan awal kalimat lokasi"
+                        id="beginningLocationSentence"
+                        style="height: 200px"
+                      >
+{{ card.beginning_location_sentence or '' }}</textarea
+                      >
+                      <label for="beginningLocationSentence"
+                        >Awal Kalimat Lokasi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan akhir kalimat lokasi"
+                        id="endLocationSentence"
+                        style="height: 200px"
+                      >
+{{ card.end_location_sentence or '' }}</textarea
+                      >
+                      <label for="endLocationSentence"
+                        >Akhir Kalimat Lokasi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingDay"
+                        placeholder="Masukkan hari pernikahan"
+                        value="{{ card.wedding_day or '' }}"
+                      />
+                      <label for="weddingDay">Hari Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingDate"
+                        placeholder="Masukkan tanggal pernikahan"
+                        value="{{ card.wedding_date or '' }}"
+                      />
+                      <label for="weddingDate">Tanggal Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingMonthYear"
+                        placeholder="Masukkan bulan dan tahun pernikahan"
+                        value="{{ card.wedding_month_year or '' }}"
+                      />
+                      <label for="weddingMonthYear"
+                        >Bulan dan Tahun Pernikahan</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingTime"
+                        placeholder="Masukkan waktu pernikahan"
+                        value="{{ card.wedding_time or '' }}"
+                      />
+                      <label for="weddingTime">Waktu Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingVenue"
+                        placeholder="Masukkan nama lokasi pernikahan"
+                        value="{{ card.wedding_venue or '' }}"
+                      />
+                      <label for="weddingVenue">Nama Lokasi Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan alamat lokasi pernikahan"
+                        id="weddingAddress"
+                        style="height: 200px"
+                      >
+{{ card.wedding_address or '' }}</textarea
+                      >
+                      <label for="weddingAddress"
+                        >Alamat Lokasi Pernikahan</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan peta lokasi pernikahan"
+                        id="pinWeddingLocationMap"
+                        style="height: 200px"
+                      >
+{{ card.pin_wedding_location_map or '' }}</textarea
+                      >
+                      <label for="pinWeddingLocationMap"
+                        >Pin Peta Lokasi Pernikahan</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan peta lokasi pernikahan"
+                        id="weddingMap"
+                        style="height: 200px"
+                      >
+{{ card.wedding_map or '' }}</textarea
+                      >
+                      <label for="weddingMap">Peta Lokasi Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionDay"
+                        placeholder="Masukkan hari resepsi"
+                        value="{{ card.reception_day or '' }}"
+                      />
+                      <label for="receptionDay">Hari Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionDate"
+                        placeholder="Masukkan tanggal resepsi"
+                        value="{{ card.reception_date or '' }}"
+                      />
+                      <label for="receptionDate">Tanggal Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionMonthYear"
+                        placeholder="Masukkan bulan dan tahun resepsi"
+                        value="{{ card.reception_month_year or '' }}"
+                      />
+                      <label for="receptionMonthYear"
+                        >Bulan dan Tahun Resepsi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionTime"
+                        placeholder="Masukkan waktu resepsi"
+                        value="{{ card.reception_time or '' }}"
+                      />
+                      <label for="receptionTime">Waktu Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionVenue"
+                        placeholder="Masukkan nama lokasi resepsi"
+                        value="{{ card.reception_venue or '' }}"
+                      />
+                      <label for="receptionVenue">Nama Lokasi Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan alamat lokasi resepsi"
+                        id="receptionAddress"
+                        style="height: 200px"
+                      >
+{{ card.reception_address or '' }}</textarea
+                      >
+                      <label for="receptionAddress"
+                        >Alamat Lokasi Resepsi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan peta lokasi resepsi"
+                        id="pinReceptionLocationMap"
+                        style="height: 200px"
+                      >
+{{ card.pin_reception_location_map or '' }}</textarea
+                      >
+                      <label for="pinReceptionLocationMap"
+                        >Pin Peta Lokasi Resepsi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan peta lokasi resepsi"
+                        id="receptionMap"
+                        style="height: 200px"
+                      >
+{{ card.reception_map or '' }}</textarea
+                      >
+                      <label for="receptionMap">Peta Lokasi Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan kalimat mengajak kehadiran"
+                        id="invitationSentence"
+                        style="height: 200px"
+                      >
+{{ card.invitation_sentence or '' }}</textarea
+                      >
+                      <label for="invitationSentence"
+                        >Kalimat Mengajak Kehadiran</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan kalimat penutup"
+                        id="closingSentence"
+                        style="height: 200px"
+                      >
+{{ card.closing_sentence or '' }}</textarea
+                      >
+                      <label for="closingSentence">Kalimat Penutup</label>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="updateCard('{{ card._id }}')"
+                    >
+                      Perbarui
+                    </button>
+                  </div>
+                  {% endfor %} {% else %}
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="groomNicknames"
+                        placeholder="Masukkan nama panggilan pria"
+                        value=""
+                      />
+                      <label for="groomNicknames">Nama Panggilan Pria</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="brideNicknames"
+                        placeholder="Masukkan nama panggilan wanita"
+                        value=""
+                      />
+                      <label for="brideNicknames">Nama Panggilan Wanita</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameGroom"
+                        placeholder="Masukkan nama lengkap pria"
+                        value=""
+                      />
+                      <label for="fullNameGroom">Nama Lengkap Pria</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameBride"
+                        placeholder="Masukkan nama lengkap wanita"
+                        value=""
+                      />
+                      <label for="fullNameBride">Nama Lengkap Wanita</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameMotherGroom"
+                        placeholder="Masukkan nama lengkap ibu mempelai pria"
+                        value=""
+                      />
+                      <label for="fullNameMotherGroom"
+                        >Nama Lengkap Ibu Mempelai Pria</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameMotherBride"
+                        placeholder="Masukkan nama lengkap ibu mempelai wanita"
+                        value=""
+                      />
+                      <label for="fullNameMotherBride"
+                        >Nama Lengkap Ibu Mempelai Wanita</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameFatherGroom"
+                        placeholder="Masukkan nama lengkap bapak mempelai pria"
+                        value=""
+                      />
+                      <label for="fullNameFatherGroom"
+                        >Nama Lengkap Bapak Mempelai Pria</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullNameFatherBride"
+                        placeholder="Masukkan nama lengkap bapak mempelai wanita"
+                        value=""
+                      />
+                      <label for="fullNameFatherBride"
+                        >Nama Lengkap Bapak Mempelai Wanita</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan kalimat pembuka"
+                        id="openingSentence"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="openingSentence">Kalimat Pembuka</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="countdownDate"
+                        placeholder="Masukkan hitung mundur tanggal"
+                        value=""
+                      />
+                      <label for="countdownDate">Hitung Mundur tanggal</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan awal kalimat lokasi"
+                        id="beginningLocationSentence"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="beginningLocationSentence"
+                        >Awal Kalimat Lokasi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan akhir kalimat lokasi"
+                        id="endLocationSentence"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="endLocationSentence"
+                        >Akhir Kalimat Lokasi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingDay"
+                        placeholder="Masukkan hari pernikahan"
+                        value=""
+                      />
+                      <label for="weddingDay">Hari Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingDate"
+                        placeholder="Masukkan tanggal pernikahan"
+                        value=""
+                      />
+                      <label for="weddingDate">Tanggal Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingMonthYear"
+                        placeholder="Masukkan bulan dan tahun pernikahan"
+                        value=""
+                      />
+                      <label for="weddingMonthYear"
+                        >Bulan dan Tahun Pernikahan</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingTime"
+                        placeholder="Masukkan waktu pernikahan"
+                        value=""
+                      />
+                      <label for="weddingTime">Waktu Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="weddingVenue"
+                        placeholder="Masukkan nama lokasi pernikahan"
+                        value=""
+                      />
+                      <label for="weddingVenue">Nama Lokasi Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan alamat lokasi pernikahan"
+                        id="weddingAddress"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="weddingAddress"
+                        >Alamat Lokasi Pernikahan</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan peta lokasi pernikahan"
+                        id="pinWeddingLocationMap"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="pinWeddingLocationMap"
+                        >Pin Peta Lokasi Pernikahan</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan peta lokasi pernikahan"
+                        id="weddingMap"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="weddingMap">Peta Lokasi Pernikahan</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionDay"
+                        placeholder="Masukkan hari resepsi"
+                        value=""
+                      />
+                      <label for="receptionDay">Hari Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionDate"
+                        placeholder="Masukkan tanggal resepsi"
+                        value=""
+                      />
+                      <label for="receptionDate">Tanggal Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionMonthYear"
+                        placeholder="Masukkan bulan dan tahun resepsi"
+                        value=""
+                      />
+                      <label for="receptionMonthYear"
+                        >Bulan dan Tahun Resepsi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionTime"
+                        placeholder="Masukkan waktu resepsi"
+                        value=""
+                      />
+                      <label for="receptionTime">Waktu Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="receptionVenue"
+                        placeholder="Masukkan nama lokasi resepsi"
+                        value=""
+                      />
+                      <label for="receptionVenue">Nama Lokasi Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan alamat lokasi resepsi"
+                        id="receptionAddress"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="receptionAddress"
+                        >Alamat Lokasi Resepsi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan peta lokasi resepsi"
+                        id="pinReceptionLocationMap"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="pinReceptionLocationMap"
+                        >Pin Peta Lokasi Resepsi</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan peta lokasi resepsi"
+                        id="receptionMap"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="receptionMap">Peta Lokasi Resepsi</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan kalimat mengajak kehadiran"
+                        id="invitationSentence"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="invitationSentence"
+                        >Kalimat Mengajak Kehadiran</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Masukkan kalimat penutup"
+                        id="closingSentence"
+                        style="height: 200px"
+                      ></textarea>
+                      <label for="closingSentence">Kalimat Penutup</label>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="updateCard('new')"
+                    >
+                      Perbarui
+                    </button>
+                  </div>
+                  {% endif %}
+                </div>
+                <!-- End Cards Form -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {% endif %} {% endif %}
+    </main>
+    <!-- End #main -->
+
+    {% include 'admin/templates/footer.html' %}
+  </body>
+</html>

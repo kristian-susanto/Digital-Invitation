@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'admin/templates/header.html' %}
+  <body>
+    {% include 'admin/templates/navbar_and_sidebar.html' %}
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1>{{ title }}</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../">Dashboard</a></li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ title }}</h5>
+                <div class="d-flex justify-content-end flex-wrap gap-2 mb-3">
+                  {% if user_info %} {% if user_info.role == 'Member' %}
+                  <!-- Add Guest Button -->
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addGuest"
+                  >
+                    <i class="bi bi-clipboard-plus"></i> Tambah {{ title }}
+                  </button>
+                  {% endif %} {% if user_info.role in ['Admin', 'Member'] %}
+                  <!-- Excel Button -->
+                  <button
+                    type="button"
+                    class="btn btn-success btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#confirmExcelDownload"
+                  >
+                    <i class="bi bi-file-earmark-excel"></i> Laporan Excel
+                  </button>
+
+                  <!-- PDF Button -->
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#confirmPDFDownload"
+                  >
+                    <i class="bi bi-file-earmark-pdf"></i> Laporan PDF
+                  </button>
+                  {% endif %} {% if user_info.role in ['Admin', 'Member'] %}
+                  <!-- Refresh Button -->
+                  <button
+                    type="button"
+                    class="btn btn-dark btn-sm"
+                    onclick="window.location.reload();"
+                  >
+                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                  </button>
+                  {% endif %} {% endif %}
+                </div>
+
+                <!-- Add Guest Modal -->
+                <div class="modal fade" id="addGuest" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Tambah {{ title }}</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row g-3">
+                          <div class="col-12">
+                            <label>Nama</label>
+                            <input
+                              type="text"
+                              class="form-control mt-2"
+                              id="addName"
+                              name="name_give"
+                              placeholder="Masukkan nama"
+                              required
+                            />
+                            <div
+                              id="addNameFeedback"
+                              class="text-warning"
+                            ></div>
+                          </div>
+                          <div class="col-12">
+                            <label>Domisili</label>
+                            <input
+                              type="text"
+                              class="form-control mt-2"
+                              id="addDomicile"
+                              name="domicile_give"
+                              placeholder="Masukkan domisili"
+                              required
+                            />
+                            <div
+                              id="addDomicileFeedback"
+                              class="text-warning"
+                            ></div>
+                          </div>
+                          <div class="col-12">
+                            <label>Nomor Telepon</label>
+                            <input
+                              type="tel"
+                              class="form-control mt-2"
+                              id="addPhoneNumber"
+                              name="phone_number_give"
+                              placeholder="Masukkan nomor telepon"
+                              required
+                            />
+                            <div id="addPhoneNumberFeedback" class=""></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm"
+                          onclick="addGuest()"
+                        >
+                          <i class="bi bi-save2"></i>
+                          Simpan
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary btn-sm"
+                          data-bs-dismiss="modal"
+                        >
+                          <i class="bi bi-arrow-counterclockwise"></i>
+                          Batal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Add Guest Modal-->
+
+                <!-- Download Excel Modal -->
+                <div class="modal fade" id="confirmExcelDownload" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Konfirmasi Unduh</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Batal"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        Yakin ingin mengunduh file <strong>Excel</strong> ini?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-success btn-sm"
+                          onclick="downloadExcel()"
+                        >
+                          <i class="bi bi-filetype-xlsx"></i> Unduh Excel
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary btn-sm"
+                          data-bs-dismiss="modal"
+                        >
+                          <i class="bi bi-arrow-counterclockwise"></i> Batal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Download Excel Modal-->
+
+                <!-- Download PDF Modal -->
+                <div class="modal fade" id="confirmPDFDownload" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Konfirmasi Unduh</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Batal"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        Yakin ingin mengunduh file <strong>PDF</strong> ini?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                          onclick="downloadPDF()"
+                        >
+                          <i class="bi bi-filetype-pdf"></i> Unduh PDF
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary btn-sm"
+                          data-bs-dismiss="modal"
+                        >
+                          <i class="bi bi-arrow-counterclockwise"></i> Batal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Download PDF Modal-->
+
+                <!-- Table -->
+                <table class="table table-hover datatable">
+                  <thead>
+                    <tr>
+                      <th class="text-center">No</th>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Nama</th>
+                      <th class="text-center">Domisili</th>
+                      <th class="text-center">Status</th>
+                      {% if user_info %} {% if user_info.role in ['Admin',
+                      'Member', 'User'] %}
+                      <th class="text-center">Aksi</th>
+                      {% endif %} {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for guest in guests %}
+                    <tr>
+                      <td class="text-center">{{ loop.index }}</td>
+                      <td class="text-center">{{ guest.guest_id }}</td>
+                      <td>{{ guest.name }}</td>
+                      <td>{{ guest.domicile }}</td>
+                      <td class="text-center">
+                        {% include 'admin/templates/badges.html' %}
+                      </td>
+                      <td class="text-center">
+                        {% if user_info %} {% if guest.status == 'Undangan siap'
+                        %} {% if user_info.role == 'Member' %}
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm mb-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#editGuest_{{ guest['_id'] }}"
+                        >
+                          <i class="bi bi-pencil-square me-1"></i> Edit
+                        </button>
+                        {% endif %} {% if user_info.role == 'Member' %}
+                        <button
+                          type="button"
+                          class="btn btn-success btn-sm mb-2"
+                          onclick="window.open(
+    'https://api.whatsapp.com/send?phone={{ guest.phone }}&text=' +
+    encodeURIComponent(
+      'Vivaldy & Angelita\n\n' +
+      'Yang terhormat, {{ guest.name }}\n\n' +
+      'Kami dengan hormat memohon kehadiran Anda saat kami mengucapkan janji pernikahan.\n\n' +
+      'Kehadiran, berkat, dan doa Anda sangat berarti bagi kami. Kami menantikan hari istimewa kami bersama Anda.\n\n' +
+      'Mohon bantuannya untuk mengonfirmasi kehadiran Anda dengan mengirimkan RSVP melalui e-undangan sebagai berikut:\n' +
+      'http://127.0.0.1:5000/{{ guest.guest_id }}\n\n' +
+      'Salam hangat,\nVivaldy (Didi) & Angelita (Angel)'
+    ),
+    '_blank')"
+                        >
+                          <i class="bi bi-share"></i> Sebar ke WA
+                        </button>
+                        {% endif %} {% endif %} {% if user_info.role in
+                        ['Admin', 'Member', 'User'] %}
+                        <button
+                          type="button"
+                          class="btn btn-dark btn-sm mb-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#detailGuest_{{ guest['_id'] }}"
+                        >
+                          <i class="bi bi-eye me-1"></i> Detail
+                        </button>
+                        {% endif %} {% if user_info.role in ['Admin', 'Member']
+                        %}
+                        <button
+                          type="button"
+                          class="btn btn-secondary btn-sm mb-2"
+                          onclick="copyLink('http://127.0.0.1:5000/{{ guest.guest_id }}')"
+                        >
+                          <i class="bi bi-copy"></i> Salin Link
+                          <span class="badge bg-white text-primary"></span>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm mb-2"
+                          onclick="window.open('{{ 'http://127.0.0.1:5000/' + guest.guest_id|string }}', '_blank')"
+                        >
+                          <i class="bi bi-envelope-open"></i> Buka Link
+                        </button>
+                        {% endif %} {% if user_info.role == 'Admin' %}
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm mb-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteGuest_{{ guest['_id'] }}"
+                        >
+                          <i class="bi bi-trash me-1"></i> Hapus
+                          <span class="badge bg-white text-danger"></span>
+                        </button>
+                        {% endif %} {% endif %}
+                      </td>
+                    </tr>
+
+                    <!-- Edit Guest Modal -->
+                    <div
+                      class="modal fade"
+                      id="editGuest_{{ guest['_id'] }}"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Ubah {{ title }}</h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row g-3">
+                              <div class="col-12">
+                                <label>ID Tamu</label>
+                                <input
+                                  type="tel"
+                                  class="form-control mt-2"
+                                  id="editGuestId_{{ guest._id }}"
+                                  name="guest_id_give"
+                                  placeholder="Masukkan ID tamu"
+                                  value="{{ guest.guest_id }}"
+                                  required
+                                  autofocus
+                                />
+                                <div
+                                  id="editGuestIdFeedback_{{ guest._id }}"
+                                  class="text-warning"
+                                ></div>
+                              </div>
+                              <div class="col-12">
+                                <label>Nama</label>
+                                <input
+                                  type="text"
+                                  class="form-control mt-2"
+                                  id="editName_{{ guest._id }}"
+                                  name="name_give"
+                                  placeholder="Masukkan nama"
+                                  value="{{ guest.name }}"
+                                  required
+                                />
+                                <div
+                                  id="editNameFeedback_{{ guest._id }}"
+                                  class="text-warning"
+                                ></div>
+                              </div>
+                              <div class="col-12">
+                                <label>Domisili</label>
+                                <input
+                                  type="text"
+                                  class="form-control mt-2"
+                                  id="editDomicile_{{ guest._id }}"
+                                  name="domicile_give"
+                                  placeholder="Masukkan domisili"
+                                  value="{{ guest.domicile }}"
+                                  required
+                                />
+                                <div
+                                  id="editDomicileFeedback_{{ guest._id }}"
+                                  class="text-warning"
+                                ></div>
+                              </div>
+                              <div class="col-12">
+                                <label>Nomor Telepon</label>
+                                <input
+                                  type="tel"
+                                  class="form-control mt-2"
+                                  id="editPhoneNumber_{{ guest._id }}"
+                                  name="phone_number_give"
+                                  placeholder="Masukkan nomor telepon"
+                                  value="{{ guest.phone_number }}"
+                                  required
+                                />
+                                <div
+                                  id="editPhoneNumberFeedback_{{ guest._id }}"
+                                  class=""
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <input type="hidden" value="{{ guest['_id'] }}" />
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-sm"
+                              onclick="editGuest('{{ guest['_id'] }}')"
+                            >
+                              <i class="bi bi-save2"></i> Simpan
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-secondary btn-sm"
+                              data-bs-dismiss="modal"
+                            >
+                              <i class="bi bi-arrow-counterclockwise"></i>
+                              Batal
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Edit Guest Modal -->
+
+                    <!-- Detail Guest Modal -->
+                    <div
+                      class="modal fade"
+                      id="detailGuest_{{ guest['_id'] }}"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Detail {{ title }}</h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row g-3">
+                              <div class="col-6">
+                                <label>ID Tamu</label>
+                                <p class="form-control mt-2">
+                                  {{ guest.guest_id }}
+                                </p>
+                              </div>
+                              <div class="col-6">
+                                <label>Nama</label>
+                                <p class="form-control mt-2">
+                                  {{ guest.name }}
+                                </p>
+                              </div>
+                              <div class="col-6">
+                                <label>Domisili</label>
+                                <p class="form-control mt-2">
+                                  {{ guest.domicile }}
+                                </p>
+                              </div>
+                              <div class="col-6">
+                                <label>Status</label>
+                                <p class="form-control mt-2">
+                                  {% include 'admin/templates/badges.html' %}
+                                </p>
+                              </div>
+                              {% if user_info.role == 'Member' %}
+                              <div class="col-6">
+                                <label>Nomor Telepon</label>
+                                <p class="form-control mt-2">
+                                  {% if guest.phone_number != '' %} {{
+                                  guest.phone_number }} {% else %} - {% endif %}
+                                </p>
+                              </div>
+                              <div class="col-6">
+                                <label>Tanggal dan Waktu Hadir</label>
+                                <p class="form-control mt-2">
+                                  {% if guest.reception_attendance_date and
+                                  guest.reception_attendance_time != '' %} {{
+                                  guest.reception_attendance_date }} - {{
+                                  guest.reception_attendance_time }} {% else %}
+                                  - {% endif %}
+                                </p>
+                              </div>
+                              {% endif %}
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary btn-sm"
+                              data-bs-dismiss="modal"
+                            >
+                              <i class="bi bi-arrow-counterclockwise"></i>
+                              Tutup
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Detail Guest Modal -->
+
+                    <!-- Delete Guest Modal -->
+                    <div
+                      class="modal fade"
+                      id="deleteGuest_{{ guest['_id'] }}"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Hapus {{ title }}</h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            Apakah Anda yakin ingin menghapus tamu ini?
+                          </div>
+                          <div class="modal-footer">
+                            <input type="hidden" value="{{ guest['_id'] }}" />
+                            <button
+                              type="button"
+                              class="btn btn-danger btn-sm"
+                              onclick="deleteGuest('{{ guest['_id'] }}')"
+                            >
+                              <i class="bi bi-trash3"></i> Hapus
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-secondary btn-sm"
+                              data-bs-dismiss="modal"
+                            >
+                              <i class="bi bi-arrow-counterclockwise"></i>
+                              Batal
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Delete Guest Modal -->
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <!-- End Table -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- End #main -->
+
+    <script>
+      const currentCollection = "{{ collection_name }}";
+    </script>
+
+    {% include 'admin/templates/footer.html' %}
+  </body>
+</html>
