@@ -33,8 +33,8 @@ Aplikasi web berbasis **Flask + MongoDB** untuk mengelola **undangan pernikahan 
 1. **Clone repo ini**
 
 ```bash
-git clone https://github.com/nama-user/wedding-invitation-app.git
-cd wedding-invitation-app
+git clone https://github.com/kristian-susanto/Digital-Invitation.git
+cd Digital-Invitation
 ```
 
 2. **Buat virtual environment (opsional tapi direkomendasikan)**
